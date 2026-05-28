@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: ThreeLightsBlinnPhong
-  m_Shader: {fileID: 4800000, guid: fd349fa5757193e48ba86506d19f93ea, type: 3}
+  m_Name: BarroT
+  m_Shader: {fileID: 4800000, guid: a687bcc1eb1f66648aa98c16c4619e37, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -65,6 +65,7 @@ Material:
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
+    - _DiffuseBands: 3
     - _DstBlend: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.5
@@ -75,9 +76,11 @@ Material:
     - _Parallax: 0.02
     - _PointLightAttenuation: 0.2
     - _PointLightIntensity: 1
-    - _Shininess: 32
+    - _Shininess: 12
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
+    - _SpecularSmoothness: 0.08
+    - _SpecularThreshold: 0.75
     - _SpotLightAttenuation: 0.2
     - _SpotLightIntensity: 1
     - _SrcBlend: 1
@@ -89,10 +92,10 @@ Material:
     - _DirLightColor: {r: 1, g: 1, b: 1, a: 1}
     - _DirLightDirection: {r: 1, g: -1, b: 1, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _MaterialColor: {r: 1, g: 1, b: 1, a: 1}
-    - _MaterialKa: {r: 0.2, g: 0.2, b: 0.2, a: 1}
-    - _MaterialKd: {r: 0.8, g: 0.8, b: 0.8, a: 1}
-    - _MaterialKs: {r: 1, g: 1, b: 1, a: 1}
+    - _MaterialColor: {r: 0.55, g: 0.5, b: 0, a: 1}
+    - _MaterialKa: {r: 0.2, g: 0.18, b: 0.05, a: 1}
+    - _MaterialKd: {r: 0.7, g: 0.6, b: 0.1, a: 1}
+    - _MaterialKs: {r: 0.05, g: 0.05, b: 0.03, a: 1}
     - _PointLightColor: {r: 1, g: 0, b: 0, a: 1}
     - _PointLightPosition: {r: 0, g: 2, b: -2, a: 1}
     - _SpotLightColor: {r: 0, g: 0, b: 1, a: 1}

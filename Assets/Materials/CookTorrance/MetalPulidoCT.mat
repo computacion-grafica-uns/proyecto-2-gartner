@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: MetalPulidoCT
+  m_Shader: {fileID: 4800000, guid: e007412f4ebec7b4d8a25976dd8c3596, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _Apertura: 30
+    - _PointLightAttenuation: 0.2
+    - _PointLightIntensity: 1
+    - _Roughness: 0.12
+    - _SpotLightAttenuation: 0.2
+    - _SpotLightIntensity: 1
+    m_Colors:
+    - _AmbientLight: {r: 0.1, g: 0.1, b: 0.1, a: 1}
+    - _DirLightColor: {r: 1, g: 1, b: 1, a: 1}
+    - _DirLightDirection: {r: 1, g: -1, b: 1, a: 0}
+    - _F0: {r: 0.85, g: 0.82, b: 0.76, a: 1}
+    - _MaterialColor: {r: 0.7, g: 0.7, b: 0.68, a: 1}
+    - _MaterialKa: {r: 0.05, g: 0.05, b: 0.05, a: 1}
+    - _MaterialKd: {r: 0.08, g: 0.08, b: 0.08, a: 1}
+    - _PointLightColor: {r: 1, g: 0, b: 0, a: 1}
+    - _PointLightPosition: {r: 0, g: 2, b: -2, a: 1}
+    - _SpotLightColor: {r: 0, g: 0, b: 1, a: 1}
+    - _SpotLightDirection: {r: -1, g: -1, b: 1, a: 0}
+    - _SpotLightPosition: {r: 2, g: 3, b: -2, a: 1}
+  m_BuildTextureStacks: []
