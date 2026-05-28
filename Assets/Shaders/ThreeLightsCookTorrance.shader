@@ -12,6 +12,12 @@ Shader "Custom/ThreeLightsCookTorrance"
         _F0 ("F0 / Fresnel Reflectance", Color) = (0.04, 0.04, 0.04, 1)
         _Roughness ("Roughness", Range(0.02, 1.0)) = 0.35
 
+        // Render state. Opaque materials use One/Zero + ZWrite On.
+        // Semi-transparent materials use SrcAlpha/OneMinusSrcAlpha + ZWrite Off.
+        [Enum(UnityEngine.Rendering.BlendMode)] _SrcBlend ("Source Blend", Float) = 1
+        [Enum(UnityEngine.Rendering.BlendMode)] _DstBlend ("Destination Blend", Float) = 0
+        [Enum(Off,0,On,1)] _ZWrite ("ZWrite", Float) = 1
+
         // Luz direccional
         _DirLightDirection ("Directional Light Direction", Vector) = (1, -1, 1, 0)
         _DirLightColor ("Directional Light Color", Color) = (1, 1, 1, 1)
@@ -37,6 +43,9 @@ Shader "Custom/ThreeLightsCookTorrance"
 
         Pass
         {
+            Blend [_SrcBlend] [_DstBlend]
+            ZWrite [_ZWrite]
+
             CGPROGRAM
 
             #pragma vertex vertexShader
