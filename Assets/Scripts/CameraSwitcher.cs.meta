@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 8203c989aa751344da0cf23893a91358
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - orbitalCamera: {fileID: 7809289128750113647, guid: c2f23c2bbf908f740965076de551b186, type: 3}
+  - fpsCamera: {fileID: 8590765912544911417, guid: f825df4fb9cff1044a214273bd217e5d, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
