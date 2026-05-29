@@ -44,8 +44,8 @@ Material:
     m_Colors:
     - _AmbientLight: {r: 0.1, g: 0.1, b: 0.1, a: 1}
     - _DirLightColor: {r: 1, g: 1, b: 1, a: 1}
-    - _DirLightDirection: {r: 0, g: -1, b: 0.35, a: 0}
-    - _MaterialColor: {r: 0.65, g: 0.78, b: 1, a: 1}
+    - _DirLightDirection: {r: 0, g: -35, b: -40, a: 0}
+    - _MaterialColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - _MaterialKa: {r: 0.08, g: 0.1, b: 0.14, a: 1}
     - _MaterialKd: {r: 0.35, g: 0.45, b: 0.65, a: 1}
     - _MaterialKs: {r: 1, g: 1, b: 1, a: 1}

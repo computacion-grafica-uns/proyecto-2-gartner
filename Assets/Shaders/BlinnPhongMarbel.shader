@@ -1,4 +1,4 @@
-Shader "Custom/ThreeLightsBlinnPhong"
+Shader "Custom/BlinnPhongMarble"
 {
     Properties
     {
@@ -9,6 +9,12 @@ Shader "Custom/ThreeLightsBlinnPhong"
         _MaterialKd ("Material Kd", Vector) = (0.8, 0.8, 0.8, 1)
         _MaterialKs ("Material Ks", Vector) = (1, 1, 1, 1)
         _Shininess ("Shininess", Float) = 32
+
+        // Marble procedural parameters
+        _MarbleScale ("Marble Scale", Float) = 5
+        _MarbleNoiseStrength ("Marble Noise Strength", Float) = 2
+        _MarbleVeinFrequency ("Marble Vein Frequency", Float) = 15
+        _MarbleVeinThreshold ("Marble Vein Threshold", Range(-1.0, 1.0)) = 0.3
 
         // Render state. Opaque materials use One/Zero + ZWrite On.
         // Semi-transparent materials use SrcAlpha/OneMinusSrcAlpha + ZWrite Off.
@@ -59,6 +65,11 @@ Shader "Custom/ThreeLightsBlinnPhong"
             float4 _MaterialKs;
             float _Shininess;
 
+            float _MarbleScale;
+            float _MarbleNoiseStrength;
+            float _MarbleVeinFrequency;
+            float _MarbleVeinThreshold;
+
             float4 _DirLightDirection;
             fixed4 _DirLightColor;
 
@@ -78,6 +89,7 @@ Shader "Custom/ThreeLightsBlinnPhong"
             {
                 float4 position : POSITION;
                 float3 normal : NORMAL;
+                float2 uv : TEXCOORD0;
             };
 
             struct VertexToFragment
@@ -85,7 +97,37 @@ Shader "Custom/ThreeLightsBlinnPhong"
                 float4 position : SV_POSITION;
                 float3 worldPosition : TEXCOORD0;
                 float3 worldNormal : TEXCOORD1;
+                float2 uv : TEXCOORD2;
             };
+
+            float MarbleNoise(float2 uv)
+            {
+                float n =
+                    sin(uv.x * 12.0 + sin(uv.y * 18.0)) +
+                    0.5 * sin(uv.x * 25.0 + uv.y * 8.0) +
+                    0.25 * sin(uv.x * 50.0 - uv.y * 20.0);
+
+                return n;
+            }
+
+            float3 MarbleColor(float2 uv)
+            {
+                float2 scaledUV = uv * _MarbleScale;
+
+                float noise = MarbleNoise(scaledUV);
+
+                float veins = sin(
+                    (scaledUV.x + noise * _MarbleNoiseStrength)
+                    * _MarbleVeinFrequency
+                );
+
+                float t = smoothstep(_MarbleVeinThreshold, 1.0, veins);
+
+                float3 baseColor = float3(0.85, 0.82, 0.75);
+                float3 veinColor = float3(0.18, 0.18, 0.20);
+
+                return lerp(baseColor, veinColor, t);
+            }
 
             VertexToFragment vertexShader(VertexData v)
             {
@@ -94,6 +136,7 @@ Shader "Custom/ThreeLightsBlinnPhong"
                 output.position = UnityObjectToClipPos(v.position);
                 output.worldPosition = mul(unity_ObjectToWorld, v.position).xyz;
                 output.worldNormal = UnityObjectToWorldNormal(v.normal);
+                output.uv = v.uv;
 
                 return output;
             }
@@ -103,12 +146,14 @@ Shader "Custom/ThreeLightsBlinnPhong"
                 float3 viewDir,
                 float3 lightDir,
                 float3 lightColor,
-                float attenuation
+                float attenuation,
+                float3 baseColor
             )
             {
                 float NdotL = max(dot(normal, lightDir), 0.0);
 
                 float3 diffuse =
+                    baseColor *
                     _MaterialKd.rgb *
                     lightColor *
                     NdotL;
@@ -133,12 +178,16 @@ Shader "Custom/ThreeLightsBlinnPhong"
                 float3 N = normalize(i.worldNormal);
                 float3 V = normalize(_WorldSpaceCameraPos.xyz - i.worldPosition);
 
+                float3 marbleColor = MarbleColor(i.uv);
+                float3 baseColor = marbleColor * _MaterialColor.rgb;
+
                 // -------------------------
                 // Ambiental
                 // -------------------------
                 float3 ambient =
                     _AmbientLight.rgb *
-                    _MaterialKa.rgb;
+                    _MaterialKa.rgb *
+                    baseColor;
 
                 // -------------------------
                 // Luz direccional
@@ -151,7 +200,8 @@ Shader "Custom/ThreeLightsBlinnPhong"
                         V,
                         L1,
                         _DirLightColor.rgb,
-                        1.0
+                        1.0,
+                        baseColor
                     );
 
                 // -------------------------
@@ -166,13 +216,14 @@ Shader "Custom/ThreeLightsBlinnPhong"
                 float attenuationPoint =
                     1.0 / (1.0 + _PointLightAttenuation * distanceToPoint * distanceToPoint);
 
-                float3 pointLightResult  =
+                float3 pointLightResult =
                     BlinnPhongLight(
                         N,
                         V,
                         L2,
                         _PointLightColor.rgb * _PointLightIntensity,
-                        attenuationPoint
+                        attenuationPoint,
+                        baseColor
                     );
 
                 // -------------------------
@@ -201,7 +252,8 @@ Shader "Custom/ThreeLightsBlinnPhong"
                             V,
                             L3,
                             _SpotLightColor.rgb * _SpotLightIntensity,
-                            attenuationSpot
+                            attenuationSpot,
+                            baseColor
                         );
                 }
 
@@ -211,10 +263,8 @@ Shader "Custom/ThreeLightsBlinnPhong"
                 float3 finalColor =
                     ambient +
                     directional +
-                    pointLightResult  +
+                    pointLightResult +
                     spot;
-
-                finalColor *= _MaterialColor.rgb;
 
                 return fixed4(finalColor, _MaterialColor.a);
             }
