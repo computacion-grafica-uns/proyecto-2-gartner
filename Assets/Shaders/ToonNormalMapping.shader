@@ -1,19 +1,20 @@
-Shader "Custom/Toon"
+Shader "Custom/ToonNormalMapping"
 {
     Properties
     {
         _MaterialColor ("Material Color", Color) = (1, 1, 1, 1)
-
         _AmbientLight ("Ambient Light", Color) = (0.1, 0.1, 0.1, 1)
         _MaterialKa ("Material Ka", Vector) = (0.2, 0.2, 0.2, 1)
         _MaterialKd ("Material Kd", Vector) = (0.8, 0.8, 0.8, 1)
         _MaterialKs ("Material Ks", Vector) = (1, 1, 1, 1)
         _Shininess ("Shininess", Float) = 32
-
-        // Toon / Cel shading
         _DiffuseBands ("Diffuse Bands", Range(2, 6)) = 3
         _SpecularThreshold ("Specular Threshold", Range(0.0, 1.0)) = 0.6
         _SpecularSmoothness ("Specular Smoothness", Range(0.001, 0.5)) = 0.05
+
+        _MainTex ("Main Texture", 2D) = "white" {}
+        [Normal] _NormalMap ("Normal Map", 2D) = "bump" {}
+        _NormalStrength ("Normal Strength", Range(0.0, 2.0)) = 1.0
 
         // Render state. Opaque materials use One/Zero + ZWrite On.
         // Semi-transparent materials use SrcAlpha/OneMinusSrcAlpha + ZWrite Off.
@@ -56,14 +57,18 @@ Shader "Custom/Toon"
 
             #include "UnityCG.cginc"
 
-            fixed4 _MaterialColor;
+            sampler2D _MainTex;
+            float4 _MainTex_ST;
+            sampler2D _NormalMap;
+            float4 _NormalMap_ST;
+            float _NormalStrength;
 
+            fixed4 _MaterialColor;
             fixed4 _AmbientLight;
             float4 _MaterialKa;
             float4 _MaterialKd;
             float4 _MaterialKs;
             float _Shininess;
-
             float _DiffuseBands;
             float _SpecularThreshold;
             float _SpecularSmoothness;
@@ -87,6 +92,8 @@ Shader "Custom/Toon"
             {
                 float4 position : POSITION;
                 float3 normal : NORMAL;
+                float4 tangent : TANGENT;
+                float2 uv : TEXCOORD0;
             };
 
             struct VertexToFragment
@@ -94,6 +101,10 @@ Shader "Custom/Toon"
                 float4 position : SV_POSITION;
                 float3 worldPosition : TEXCOORD0;
                 float3 worldNormal : TEXCOORD1;
+                float3 worldTangent : TEXCOORD2;
+                float3 worldBitangent : TEXCOORD3;
+                float2 uvMain : TEXCOORD4;
+                float2 uvNormal : TEXCOORD5;
             };
 
             VertexToFragment vertexShader(VertexData v)
@@ -102,15 +113,38 @@ Shader "Custom/Toon"
 
                 output.position = UnityObjectToClipPos(v.position);
                 output.worldPosition = mul(unity_ObjectToWorld, v.position).xyz;
-                output.worldNormal = UnityObjectToWorldNormal(v.normal);
+
+                float3 worldNormal = UnityObjectToWorldNormal(v.normal);
+                float3 worldTangent = UnityObjectToWorldDir(v.tangent.xyz);
+                float tangentSign = v.tangent.w * unity_WorldTransformParams.w;
+                float3 worldBitangent = cross(worldNormal, worldTangent) * tangentSign;
+
+                output.worldNormal = worldNormal;
+                output.worldTangent = worldTangent;
+                output.worldBitangent = worldBitangent;
+                output.uvMain = TRANSFORM_TEX(v.uv, _MainTex);
+                output.uvNormal = TRANSFORM_TEX(v.uv, _NormalMap);
 
                 return output;
             }
 
+            float3 GetWorldNormal(VertexToFragment i)
+            {
+                float3 tangentNormal = UnpackNormal(tex2D(_NormalMap, i.uvNormal));
+                tangentNormal.xy *= _NormalStrength;
+                tangentNormal = normalize(tangentNormal);
+
+                float3 T = normalize(i.worldTangent);
+                float3 B = normalize(i.worldBitangent);
+                float3 N = normalize(i.worldNormal);
+
+                float3x3 TBN = float3x3(T, B, N);
+                return normalize(mul(tangentNormal, TBN));
+            }
+
+
             float QuantizeDiffuse(float value, float bands)
             {
-                // Convierte el Lambert continuo [0,1] en pocos escalones discretos.
-                // Ejemplo con 3 bandas: sombra, medio tono, luz fuerte.
                 bands = max(bands, 2.0);
                 return floor(value * bands) / (bands - 1.0);
             }
@@ -125,7 +159,6 @@ Shader "Custom/Toon"
             {
                 float NdotL = max(dot(normal, lightDir), 0.0);
 
-                // Difuso toon: en vez de usar NdotL directamente, lo cuantizamos.
                 float toonDiffuseFactor = saturate(QuantizeDiffuse(NdotL, _DiffuseBands));
 
                 float3 diffuse =
@@ -133,7 +166,6 @@ Shader "Custom/Toon"
                     lightColor *
                     toonDiffuseFactor;
 
-                // Especular toon: calculamos Blinn-Phong, pero lo convertimos en una mancha casi binaria.
                 float3 H = normalize(lightDir + viewDir);
 
                 float blinnSpecular = pow(
@@ -157,7 +189,9 @@ Shader "Custom/Toon"
 
             fixed4 fragmentShader(VertexToFragment i) : SV_Target
             {
-                float3 N = normalize(i.worldNormal);
+                fixed4 albedo = tex2D(_MainTex, i.uvMain) * _MaterialColor;
+
+                float3 N = GetWorldNormal(i);
                 float3 V = normalize(_WorldSpaceCameraPos.xyz - i.worldPosition);
 
                 // -------------------------
@@ -193,7 +227,7 @@ Shader "Custom/Toon"
                 float attenuationPoint =
                     1.0 / (1.0 + _PointLightAttenuation * distanceToPoint * distanceToPoint);
 
-                float3 pointLightResult  =
+                float3 pointLightResult =
                     ToonLight(
                         N,
                         V,
@@ -212,7 +246,6 @@ Shader "Custom/Toon"
                 float3 L3 = normalize(toSpotLight);
 
                 float3 spotDir = normalize(-_SpotLightDirection.xyz);
-
                 float angle = acos(dot(L3, spotDir));
 
                 float3 spot = float3(0, 0, 0);
@@ -238,12 +271,12 @@ Shader "Custom/Toon"
                 float3 finalColor =
                     ambient +
                     directional +
-                    pointLightResult  +
+                    pointLightResult +
                     spot;
 
-                finalColor *= _MaterialColor.rgb;
+                finalColor *= albedo.rgb;
 
-                return fixed4(finalColor, _MaterialColor.a);
+                return fixed4(finalColor, albedo.a);
             }
 
             ENDCG
