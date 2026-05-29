@@ -1,4 +1,4 @@
-Shader "Custom/ThreeLightsCookTorrance"
+Shader "Custom/ThreeLightsCookTorranceMarble"
 {
     Properties
     {
@@ -11,6 +11,13 @@ Shader "Custom/ThreeLightsCookTorrance"
         // Cook-Torrance
         _F0 ("F0 / Fresnel Reflectance", Color) = (0.04, 0.04, 0.04, 1)
         _Roughness ("Roughness", Range(0.02, 1.0)) = 0.35
+
+
+        // Marble procedural parameters
+        _MarbleScale ("Marble Scale", Float) = 5
+        _MarbleNoiseStrength ("Marble Noise Strength", Float) = 2
+        _MarbleVeinFrequency ("Marble Vein Frequency", Float) = 15
+        _MarbleVeinThreshold ("Marble Vein Threshold", Range(-1.0, 1.0)) = 0.3
 
         // Render state. Opaque materials use One/Zero + ZWrite On.
         // Semi-transparent materials use SrcAlpha/OneMinusSrcAlpha + ZWrite Off.
@@ -64,6 +71,12 @@ Shader "Custom/ThreeLightsCookTorrance"
             fixed4 _F0;
             float _Roughness;
 
+
+            float _MarbleScale;
+            float _MarbleNoiseStrength;
+            float _MarbleVeinFrequency;
+            float _MarbleVeinThreshold;
+
             float4 _DirLightDirection;
             fixed4 _DirLightColor;
 
@@ -83,6 +96,7 @@ Shader "Custom/ThreeLightsCookTorrance"
             {
                 float4 position : POSITION;
                 float3 normal : NORMAL;
+                float2 uv : TEXCOORD0;
             };
 
             struct VertexToFragment
@@ -90,8 +104,39 @@ Shader "Custom/ThreeLightsCookTorrance"
                 float4 position : SV_POSITION;
                 float3 worldPosition : TEXCOORD0;
                 float3 worldNormal : TEXCOORD1;
+                float2 uv : TEXCOORD2;
             };
 
+
+
+            float MarbleNoise(float2 uv)
+            {
+                float n =
+                    sin(uv.x * 12.0 + sin(uv.y * 18.0)) +
+                    0.5 * sin(uv.x * 25.0 + uv.y * 8.0) +
+                    0.25 * sin(uv.x * 50.0 - uv.y * 20.0);
+
+                return n;
+            }
+
+            float3 MarbleColor(float2 uv)
+            {
+                float2 scaledUV = uv * _MarbleScale;
+
+                float noise = MarbleNoise(scaledUV);
+
+                float veins = sin(
+                    (scaledUV.x + noise * _MarbleNoiseStrength)
+                    * _MarbleVeinFrequency
+                );
+
+                float t = smoothstep(_MarbleVeinThreshold, 1.0, veins);
+
+                float3 baseColor = float3(0.85, 0.82, 0.75);
+                float3 veinColor = float3(0.18, 0.18, 0.20);
+
+                return lerp(baseColor, veinColor, t);
+            }
             VertexToFragment vertexShader(VertexData v)
             {
                 VertexToFragment output;
@@ -99,6 +144,7 @@ Shader "Custom/ThreeLightsCookTorrance"
                 output.position = UnityObjectToClipPos(v.position);
                 output.worldPosition = mul(unity_ObjectToWorld, v.position).xyz;
                 output.worldNormal = UnityObjectToWorldNormal(v.normal);
+                output.uv = v.uv;
 
                 return output;
             }
@@ -134,7 +180,8 @@ Shader "Custom/ThreeLightsCookTorrance"
                 float3 viewDir,
                 float3 lightDir,
                 float3 lightColor,
-                float attenuation
+                float attenuation,
+                float3 baseColor
             )
             {
                 float3 N = normalize(normal);
@@ -163,7 +210,7 @@ Shader "Custom/ThreeLightsCookTorrance"
                 float3 specularBRDF = (F * D * G) / max(4.0 * NdotL * NdotV, 0.0001);
 
                 // Parte difusa del BRDF de Cook-Torrance: rho_d / PI
-                float3 diffuseBRDF = _MaterialKd.rgb / PI;
+                float3 diffuseBRDF = baseColor * _MaterialKd.rgb / PI;
 
                 return (diffuseBRDF + specularBRDF) * lightColor * NdotL * attenuation;
             }
@@ -173,12 +220,16 @@ Shader "Custom/ThreeLightsCookTorrance"
                 float3 N = normalize(i.worldNormal);
                 float3 V = normalize(_WorldSpaceCameraPos.xyz - i.worldPosition);
 
+                float3 marbleColor = MarbleColor(i.uv);
+                float3 baseColor = marbleColor * _MaterialColor.rgb;
+
                 // -------------------------
                 // Ambiental
                 // -------------------------
                 float3 ambient =
                     _AmbientLight.rgb *
-                    _MaterialKa.rgb;
+                    _MaterialKa.rgb *
+                    baseColor;
 
                 // -------------------------
                 // Luz direccional
@@ -191,7 +242,8 @@ Shader "Custom/ThreeLightsCookTorrance"
                         V,
                         L1,
                         _DirLightColor.rgb,
-                        1.0
+                        1.0,
+                        baseColor
                     );
 
                 // -------------------------
@@ -212,7 +264,8 @@ Shader "Custom/ThreeLightsCookTorrance"
                         V,
                         L2,
                         _PointLightColor.rgb * _PointLightIntensity,
-                        attenuationPoint
+                        attenuationPoint,
+                        baseColor
                     );
 
                 // -------------------------
@@ -240,7 +293,8 @@ Shader "Custom/ThreeLightsCookTorrance"
                             V,
                             L3,
                             _SpotLightColor.rgb * _SpotLightIntensity,
-                            attenuationSpot
+                            attenuationSpot,
+                            baseColor
                         );
                 }
 
@@ -252,8 +306,6 @@ Shader "Custom/ThreeLightsCookTorrance"
                     directional +
                     pointLightResult +
                     spot;
-
-                finalColor *= _MaterialColor.rgb;
 
                 return fixed4(finalColor, _MaterialColor.a);
             }
