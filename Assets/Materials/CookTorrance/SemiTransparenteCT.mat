@@ -30,26 +30,26 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Apertura: 22
+    - _Apertura: 30
     - _DstBlend: 10
-    - _PointLightAttenuation: 0.08
-    - _PointLightIntensity: 1.2
-    - _Roughness: 0.04
-    - _SpotLightAttenuation: 0.05
-    - _SpotLightIntensity: 1.6
+    - _PointLightAttenuation: 0.2
+    - _PointLightIntensity: 1
+    - _Roughness: 0.232
+    - _SpotLightAttenuation: 0.2
+    - _SpotLightIntensity: 1
     - _SrcBlend: 5
     - _ZWrite: 0
     m_Colors:
     - _AmbientLight: {r: 0.1, g: 0.1, b: 0.1, a: 1}
     - _DirLightColor: {r: 1, g: 1, b: 1, a: 1}
-    - _DirLightDirection: {r: 0, g: -35, b: -40, a: 0}
+    - _DirLightDirection: {r: -0.25134808, g: -0.24361494, b: -0.9367368, a: 0}
     - _F0: {r: 0.44052836, g: 0.45545658, b: 0.46540874, a: 1}
     - _MaterialColor: {r: 0.78, g: 0.94, b: 1, a: 0.32}
     - _MaterialKa: {r: 0.02, g: 0.04, b: 0.05, a: 1}
     - _MaterialKd: {r: 0.08, g: 0.14, b: 0.18, a: 1}
-    - _PointLightColor: {r: 1, g: 0.82, b: 0.55, a: 1}
-    - _PointLightPosition: {r: 0, g: 4, b: -3, a: 1}
-    - _SpotLightColor: {r: 0.35, g: 0.55, b: 1, a: 1}
-    - _SpotLightDirection: {r: 4, g: -3, b: 6, a: 0}
-    - _SpotLightPosition: {r: -4, g: 3, b: -6, a: 1}
+    - _PointLightColor: {r: 1, g: 0, b: 0, a: 1}
+    - _PointLightPosition: {r: -142.3, g: 117.5, b: 340.7, a: 1}
+    - _SpotLightColor: {r: 0, g: 0, b: 1, a: 1}
+    - _SpotLightDirection: {r: 0.38594267, g: -0.315649, b: -0.8668416, a: 0}
+    - _SpotLightPosition: {r: -18.9, g: 143.6, b: 239.5, a: 1}
   m_BuildTextureStacks: []
