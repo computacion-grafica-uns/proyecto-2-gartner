@@ -5,7 +5,6 @@ public class CameraSwitcher : MonoBehaviour
     public Camera orbitalCamera;
     public Camera fpsCamera;
 
-
     private bool usingOrbital = true;
 
     void Start()
