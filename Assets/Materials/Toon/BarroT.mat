@@ -61,7 +61,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Apertura: 7.8
+    - _Apertura: 6.2
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
@@ -82,7 +82,7 @@ Material:
     - _SpecularSmoothness: 0.08
     - _SpecularThreshold: 0.75
     - _SpotLightAttenuation: 0
-    - _SpotLightIntensity: 1
+    - _SpotLightIntensity: 100
     - _SrcBlend: 1
     - _UVSec: 0
     - _ZWrite: 1

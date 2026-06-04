@@ -4,22 +4,24 @@ public class OrbitalCamera : MonoBehaviour
 {
     [Header("Target")]
     public Vector3 targetPosition = Vector3.zero;
-    public float upperTargetY = 120f;
-    public float middleTargetY = 60f;
-    public float lowerTargetY = 0f;
+    public float upperTargetY = 140f;
+    public float middleTargetY = 80f;
+    public float lowerTargetY = 20f;
+    public Vector3 customTargetPosition = new Vector3(-95f, 81f, -37f);
+    public float customTargetDistance = 420f;
     public float targetXStep = 40f;
 
     [Header("Rotation")]
     public float keyboardRotationSpeed = 90f;
 
     [Header("Orbit")]
-    public float distance = 40f;
-    public float height = 30f;
+    public float distance = 200f;
+    public float height = 10f;
 
     [Header("Zoom")]
     public float zoomSpeed = 40f;
-    public float minDistance = 20f;
-    public float maxDistance = 300f;
+    public float minDistance = 10f;
+    public float maxDistance = 500f;
 
     private float yaw;
 
@@ -64,6 +66,12 @@ public class OrbitalCamera : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.P))
             targetPosition = new Vector3(0f, lowerTargetY, 0f);
 
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            targetPosition = customTargetPosition;
+            distance = customTargetDistance;
+        }
+
         if (Input.GetKeyDown(KeyCode.Alpha1))
             SetTargetX(1);
 
@@ -78,6 +86,9 @@ public class OrbitalCamera : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Alpha5))
             SetTargetX(5);
+
+        if (Input.GetKeyDown(KeyCode.Alpha6))
+            SetTargetX(6);
     }
 
     void SetTargetX(int step)

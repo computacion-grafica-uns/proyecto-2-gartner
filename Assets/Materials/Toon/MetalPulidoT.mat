@@ -29,7 +29,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Apertura: 7.8
+    - _Apertura: 6.2
     - _DiffuseBands: 4
     - _DstBlend: 0
     - _PointLightAttenuation: 0
@@ -38,7 +38,7 @@ Material:
     - _SpecularSmoothness: 0.025
     - _SpecularThreshold: 0.45
     - _SpotLightAttenuation: 0
-    - _SpotLightIntensity: 1
+    - _SpotLightIntensity: 100
     - _SrcBlend: 1
     - _ZWrite: 1
     m_Colors:
