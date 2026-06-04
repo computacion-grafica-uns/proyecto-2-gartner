@@ -86,9 +86,6 @@ public class OrbitalCamera : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Alpha5))
             SetTargetX(5);
-
-        if (Input.GetKeyDown(KeyCode.Alpha6))
-            SetTargetX(6);
     }
 
     void SetTargetX(int step)
