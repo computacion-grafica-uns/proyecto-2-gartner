@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class FirstPersonCamera : MonoBehaviour
 {
-    public float moveSpeed = 5f;
+    public float moveSpeed = 200f;
     public float sprintSpeed = 10f;
     public float mouseSensitivity = 150f;
 
