@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6225624164009356327}
   - component: {fileID: 7809289128750113647}
   - component: {fileID: 3099806287082652854}
-  - component: {fileID: 7728220915190944485}
+  - component: {fileID: 2163438066230024659}
   m_Layer: 0
   m_Name: OrbitalCamera
   m_TagString: Untagged
@@ -93,7 +93,7 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2981592086583958167}
   m_Enabled: 1
---- !u!114 &7728220915190944485
+--- !u!114 &2163438066230024659
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -105,12 +105,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a432de49368683d4a914e619b54f76d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetPosition: {x: 0, y: 0, z: 0}
-  rotationSpeed: 120
+  target: {fileID: 0}
   keyboardRotationSpeed: 90
-  minVerticalAngle: -80
-  maxVerticalAngle: 80
-  distance: 5
-  minDistance: 2
-  maxDistance: 15
-  zoomSpeed: 5
+  autoCalculateDistance: 1
+  distanceMultiplier: 2.5
+  distance: 40
+  height: 30
+  zoomSpeed: 40
+  minDistanceMultiplier: 1.2
+  maxDistanceMultiplier: 6
