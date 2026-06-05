@@ -33,12 +33,21 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _Apertura: 46.2
+    - _PointLightIntensity: 1
     - _Shininess: 12
     - _SpecularSmoothness: 0.08
     - _SpecularThreshold: 0.75
+    - _SpotLightIntensity: 1
     m_Colors:
+    - _DirLightColor: {r: 1, g: 1, b: 1, a: 1}
+    - _DirLightDirection: {r: 0.5057389, g: 0.1564347, b: -0.8483846, a: 0}
     - _MaterialColor: {r: 0.20784315, g: 0.098039225, b: 0.019607844, a: 1}
     - _MaterialKa: {r: 0.2, g: 0.18, b: 0.05, a: 1}
     - _MaterialKd: {r: 0.7, g: 0.6, b: 0.1, a: 1}
     - _MaterialKs: {r: 0.05, g: 0.05, b: 0.03, a: 1}
+    - _PointLightColor: {r: 0.8301887, g: 0.8247714, b: 0.755785, a: 1}
+    - _PointLightPosition: {r: 1.008, g: 3.164, b: -0.632, a: 1}
+    - _SpotLightDirection: {r: 0, g: -1.0000001, b: -0.00000011920929, a: 0}
+    - _SpotLightPosition: {r: 4.874, g: 3.208, b: 0.579, a: 1}
   m_BuildTextureStacks: []

@@ -75,7 +75,7 @@ Material:
     - _Parallax: 0.02
     - _PointLightAttenuation: 0
     - _PointLightIntensity: 1
-    - _Roughness: 0.362
+    - _Roughness: 0.331
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SpotLightAttenuation: 0
