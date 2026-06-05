@@ -93,7 +93,7 @@ Material:
     - _AmbientLight: {r: 0.1, g: 0.1, b: 0.1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _DirLightColor: {r: 1, g: 1, b: 1, a: 1}
-    - _DirLightDirection: {r: -0.19679502, g: 0.92848593, b: 0.3149377, a: 0}
+    - _DirLightDirection: {r: 0.5057389, g: 0.1564347, b: -0.8483846, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _F0: {r: 0.72955966, g: 0.72955966, b: 0.72955966, a: 1}
     - _MaterialColor: {r: 1, g: 1, b: 1, a: 1}
@@ -101,7 +101,7 @@ Material:
     - _MaterialKd: {r: 2, g: 2, b: 2, a: 1}
     - _MaterialKs: {r: 1, g: 1, b: 1, a: 1}
     - _PointLightColor: {r: 0.8301887, g: 0.8247714, b: 0.755785, a: 1}
-    - _PointLightPosition: {r: 1.008, g: 3.201, b: -0.632, a: 1}
+    - _PointLightPosition: {r: 1.008, g: 3.164, b: -0.632, a: 1}
     - _SpotLightColor: {r: 0, g: 0, b: 1, a: 1}
     - _SpotLightDirection: {r: 0, g: -1.0000001, b: -0.00000011920929, a: 0}
     - _SpotLightPosition: {r: 4.874, g: 3.208, b: 0.579, a: 1}

@@ -9,7 +9,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: MarcoFotoOscuroBF
   m_Shader: {fileID: 4800000, guid: fd349fa5757193e48ba86506d19f93ea, type: 3}
-  m_Parent: {fileID: 2100000, guid: 4dd610eb8340425ea6cef597d92770fa, type: 2}
+  m_Parent: {fileID: 2100000, guid: a70257e3a05b41eea9c882e05e61929c, type: 2}
   m_ModifiedSerializedProperties: 8
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -25,12 +25,15 @@ Material:
     m_TexEnvs: []
     m_Ints: []
     m_Floats:
+    - _Apertura: 46.2
     - _Glossiness: 0.34
     - _Shininess: 28
     m_Colors:
     - _Color: {r: 0.055, g: 0.035, b: 0.022, a: 1}
+    - _DirLightDirection: {r: 0.5057389, g: 0.1564347, b: -0.8483846, a: 0}
     - _MaterialColor: {r: 1, g: 0.995283, b: 0.995283, a: 1}
     - _MaterialKa: {r: 0.02, g: 0.012, b: 0.008, a: 1}
     - _MaterialKd: {r: 0.085, g: 0.055, b: 0.035, a: 1}
     - _MaterialKs: {r: 0.22, g: 0.18, b: 0.14, a: 1}
+    - _PointLightPosition: {r: 1.008, g: 3.164, b: -0.632, a: 1}
   m_BuildTextureStacks: []
