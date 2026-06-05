@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SemiTransparenteCT
-  m_Shader: {fileID: 4800000, guid: e007412f4ebec7b4d8a25976dd8c3596, type: 3}
+  m_Name: PlasticoBlancoBF
+  m_Shader: {fileID: 4800000, guid: fd349fa5757193e48ba86506d19f93ea, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -16,14 +16,17 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3000
-  stringTagMap:
-    RenderType: Transparent
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
   disabledShaderPasses: []
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -31,22 +34,24 @@ Material:
     m_Ints: []
     m_Floats:
     - _Apertura: 7.8
-    - _DstBlend: 10
+    - _Glossiness: 0.45
+    - _Metallic: 0
+    - _Mode: 0
     - _PointLightAttenuation: 0
     - _PointLightIntensity: 1
-    - _Roughness: 0.232
+    - _Shininess: 36
     - _SpotLightAttenuation: 0
     - _SpotLightIntensity: 1
-    - _SrcBlend: 5
-    - _ZWrite: 0
     m_Colors:
     - _AmbientLight: {r: 0.1, g: 0.1, b: 0.1, a: 1}
+    - _Color: {r: 0.88, g: 0.86, b: 0.8, a: 1}
     - _DirLightColor: {r: 1, g: 1, b: 1, a: 1}
     - _DirLightDirection: {r: -0.19679502, g: 0.92848593, b: 0.3149377, a: 0}
-    - _F0: {r: 0.44052836, g: 0.45545658, b: 0.46540874, a: 1}
-    - _MaterialColor: {r: 0.78, g: 0.94, b: 1, a: 0.32}
-    - _MaterialKa: {r: 0.02, g: 0.04, b: 0.05, a: 1}
-    - _MaterialKd: {r: 0.08, g: 0.14, b: 0.18, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _MaterialColor: {r: 0.88, g: 0.86, b: 0.8, a: 1}
+    - _MaterialKa: {r: 0.25, g: 0.24, b: 0.22, a: 1}
+    - _MaterialKd: {r: 0.88, g: 0.86, b: 0.8, a: 1}
+    - _MaterialKs: {r: 0.48, g: 0.48, b: 0.46, a: 1}
     - _PointLightColor: {r: 0.8301887, g: 0.8247714, b: 0.755785, a: 1}
     - _PointLightPosition: {r: 1.008, g: 3.201, b: -0.632, a: 1}
     - _SpotLightColor: {r: 0, g: 0, b: 1, a: 1}

@@ -91,11 +91,11 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3854398075551931024}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 307c2aa4d3422ee4f8361c33b20479db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 200
-  sprintSpeed: 10
   mouseSensitivity: 150
+  initialYaw: 180
